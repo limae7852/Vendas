@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Engajamento em Vendas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .badge-icon {
+            transition: all 0.3s ease;
+        }
+        .badge-icon:hover {
+            transform: scale(1.1);
+        }
+        .floating-btn {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Sidebar/Navbar Mobile -->
+    <div class="md:hidden fixed bottom-0 w-full bg-white shadow-lg z-50">
+        <div class="flex justify-around py-3">
+            <a href="#dashboard" class="text-blue-500">
+                <i class="fas fa-home text-2xl"></i>
+            </a>
+            <a href="#ranking" class="text-gray-500">
+                <i class="fas fa-trophy text-2xl"></i>
+            </a>
+            <a href="#metas" class="text-gray-500">
+                <i class="fas fa-bullseye text-2xl"></i>
+            </a>
+            <a href="#conquistas" class="text-gray-500">
+                <i class="fas fa-medal text-2xl"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Sidebar Desktop -->
+    <div class="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 bg-white shadow-lg">
+        <div class="flex-1 flex flex-col min-h-0 p-4">
+            <div class="flex items-center justify-center h-16 mb-8">
+                <h1 class="text-xl font-bold text-blue-600">SalesEngage</h1>
+            </div>
+            <nav class="flex-1 space-y-4">
+                <a href="#dashboard" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg bg-blue-50 text-blue-600">
+                    <i class="fas fa-home mr-3"></i>
+                    Dashboard
+                </a>
+                <a href="#ranking" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i class="fas fa-trophy mr-3"></i>
+                    Ranking
+                </a>
+                <a href="#metas" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i class="fas fa-bullseye mr-3"></i>
+                    Metas
+                </a>
+                <a href="#conquistas" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i class="fas fa-medal mr-3"></i>
+                    Conquistas
+                </a>
+                <a href="#dicas" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i class="fas fa-lightbulb mr-3"></i>
+                    Dicas de Vendas
+                </a>
+            </nav>
+            <div class="mt-auto p-4">
+                <div class="flex items-center">
+                    <img class="w-10 h-10 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User profile">
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-gray-900">Ana Silva</p>
+                        <p class="text-xs text-gray-500">Vendedor Sênior</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="md:pl-64 flex flex-col">
+        <!-- Top Navigation -->
+        <div class="sticky top-0 z-10 bg-white shadow-sm">
+            <div class="flex justify-between items-center px-6 py-4">
+                <h2 class="text-xl font-semibold text-gray-800">Dashboard</h2>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-500 text-xl"></i>
+                        <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+                    </div>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">
+                        <i class="fas fa-plus mr-2"></i> Nova Venda
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <main class="flex-1 p-6">
+            <!-- Seção de Boas-vindas -->
+            <div id="dashboard" class="mb-8">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
+                    <h1 class="text-2xl font-bold mb-2">Bem-vindo, Ana!</h1>
+                    <p class="mb-4">Seu desempenho está 15% acima da média da equipe esta semana.</p>
+                    <div class="flex items-center">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-2">
+                                <div class="w-full bg-blue-200 rounded-full h-2.5">
+                                    <div class="bg-yellow-300 h-2.5 rounded-full progress-bar" style="width: 65%"></div>
+                                </div>
+                                <span class="ml-2 text-sm">65% da meta</span>
+                            </div>
+                            <button class="bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100">
+                                Ver detalhes
+                            </button>
+                        </div>
+                        <div class="ml-6">
+                            <div class="bg-white bg-opacity-20 rounded-full p-3 inline-block">
+                                <i class="fas fa-trophy text-3xl text-yellow-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cards de Métricas -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 text-sm">Vendas Hoje</p>
+                            <p class="text-2xl font-bold mt-1">8</p>
+                        </div>
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <i class="fas fa-arrow-up text-green-600"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-green-600 text-sm font-medium">+12%</span>
+                        <span class="text-gray-500 text-sm ml-2">vs ontem</span>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 text-sm">Ticket Médio</p>
+                            <p class="text-2xl font-bold mt-1">R$ 1,240</p>
+                        </div>
+                        <div class="bg-blue-100 p-3 rounded-lg">
+                            <i class="fas fa-chart-line text-blue-600"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-green-600 text-sm font-medium">+5%</span>
+                        <span class="text-gray-500 text-sm ml-2">vs semana passada</span>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 text-sm">Conversão</p>
+                            <p class="text-2xl font-bold mt-1">32%</p>
+                        </div>
+                        <div class="bg-purple-100 p-3 rounded-lg">
+                            <i class="fas fa-percentage text-purple-600"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-red-600 text-sm font-medium">-2%</span>
+                        <span class="text-gray-500 text-sm ml-2">vs semana passada</span>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 text-sm">Pontos</p>
+                            <p class="text-2xl font-bold mt-1">1,850</p>
+                        </div>
+                        <div class="bg-yellow-100 p-3 rounded-lg">
+                            <i class="fas fa-star text-yellow-600"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-green-600 text-sm font-medium">+320</span>
+                        <span class="text-gray-500 text-sm ml-2">esta semana</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ranking -->
+            <div id="ranking" class="bg-white rounded-xl shadow mb-8">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-800">Ranking da Equipe</h3>
+                </div>
+                <div class="p-6">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Posição</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vendedor</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vendas</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pontos</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr class="bg-blue-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="bg-yellow-300 rounded-full w-8 h-8 flex items-center justify-center">
+                                                <span class="text-sm font-bold">1</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Ana Silva</div>
+                                                <div class="text-sm text-gray-500">Sênior</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">42</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">R$ 52,080</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900 font-bold">1,850</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center">
+                                                <span class="text-sm font-bold">2</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Carlos Oliveira</div>
+                                                <div class="text-sm text-gray-500">Pleno</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">38</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">R$ 45,600</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900 font-bold">1,720</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="bg-amber-600 bg-opacity-20 rounded-full w-8 h-8 flex items-center justify-center">
+                                                <span class="text-sm font-bold">3</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/68.jpg" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Mariana Costa</div>
+                                                <div class="text-sm text-gray-500">Pleno</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">35</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">R$ 41,300</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900 font-bold">1,650</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center">
+                                                <span class="text-sm font-bold">4</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/75.jpg" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Ricardo Santos</div>
+                                                <div class="text-sm text-gray-500">Júnior</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">28</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">R$ 32,480</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900 font-bold">1,420</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metas e Progresso -->
+            <div id="metas" class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow">
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-800">Suas Metas</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-6">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-medium text-gray-700">Meta Mensal</span>
+                                <span class="text-sm font-medium text-gray-700">65%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-blue-600 h-2.5 rounded-full progress-bar" style="width: 65%"></div>
+                            </div>
+                            <div class="flex justify-between mt-1">
+                                <span class="text-xs text-gray-500">R$ 32,500 de R$ 50,000</span>
+                                <span class="text-xs text-gray-500">Faltam 15 dias</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-medium text-gray-700">Meta Semanal</span>
+                                <span class="text-sm font-medium text-gray-700">80%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-green-500 h-2.5 rounded-full progress-bar" style="width: 80%"></div>
+                            </div>
+                            <div class="flex justify-between mt-1">
+                                <span class="text-xs text-gray-500">R$ 8,000 de R$ 10,000</span>
+                                <span class="text-xs text-gray-500">Faltam 2 dias</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-medium text-gray-700">Clientes Novos</span>
+                                <span class="text-sm font-medium text-gray-700">45%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-purple-500 h-2.5 rounded-full progress-bar" style="width: 45%"></div>
+                            </div>
+                            <div class="flex justify-between mt-1">
+                                <span class="text-xs text-gray-500">9 de 20 clientes</span>
+                                <span class="text-xs text-gray-500">Meta mensal</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow">
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-800">Desafios da Equipe</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-2 rounded-lg mr-4">
+                                    <i class="fas fa-bolt text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-blue-800 mb-1">Desafio Relâmpago</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Maior número de vendas em 24 horas</p>
+                                    <div class="flex items-center text-sm">
+                                        <span class="text-blue-600 font-medium">Prêmio: R$ 500</span>
+                                        <span class="mx-2 text-gray-300">|</span>
+                                        <span class="text-gray-500">Termina em 12h</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6 p-4 bg-purple-50 rounded-lg border border-purple-100">
+                            <div class="flex items-start">
+                                <div class="bg-purple-100 p-2 rounded-lg mr-4">
+                                    <i class="fas fa-star text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-purple-800 mb-1">Estrela do Mês</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Maior ticket médio no mês</p>
+                                    <div class="flex items-center text-sm">
+                                        <span class="text-purple-600 font-medium">Prêmio: Dia de folga</span>
+                                        <span class="mx-2 text-gray-300">|</span>
+                                        <span class="text-gray-500">15 dias restantes</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 bg-green-50 rounded-lg border border-green-100">
+                            <div class="flex items-start">
+                                <div class="bg-green-100 p-2 rounded-lg mr-4">
+                                    <i class="fas fa-users text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-green-800 mb-1">Equipe Campeã</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Meta coletiva de R$ 200,000</p>
+                                    <div class="flex items-center text-sm">
+                                        <span class="text-green-600 font-medium">Prêmio: Jantar em grupo</span>
+                                        <span class="mx-2 text-gray-300">|</span>
+                                        <span class="text-gray-500">R$ 152,300 alcançados</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conquistas -->
+            <div id="conquistas" class="bg-white rounded-xl shadow mb-8">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-gray-800">Suas Conquistas</h3>
+                        <span class="text-sm text-blue-600 font-medium">Ver todas</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        <div class="flex flex-col items-center">
+                            <div class="bg-yellow-100 p-4 rounded-full badge-icon">
+                                <i class="fas fa-trophy text-yellow-500 text-2xl"></i>
+                            </div>
+                            <span class="mt-2 text-sm font-medium text-center">Top Seller</span>
+                            <span class="text-xs text-gray-500 text-center">1º lugar</span>
+                        </div>
+                        
+                        <div class="flex flex-col items-center">
+                            <div class="bg-blue-100 p-4 rounded-full badge-icon">
+                                <i class="fas fa-bolt text-blue-500 text-2xl"></i>
+                            </div>
+                            <span class="mt-2 text-sm font-medium text-center">Vendedor Relâmpago</span>
+                            <span class="text-xs text-gray-500 text-center">+10 vendas/dia</span>
+                        </div>
+                        
+                        <div class="flex flex-col items-center">
+                            <div class="bg-green-100 p-4 rounded-full badge-icon">
+                                <i class="fas fa-chart-line text-green-500 text-2xl"></i>
+                            </div>
+                            <span class="mt-2 text-sm font-medium text-center">Crescimento</span>
+                            <span class="text-xs text-gray-500 text-center">+20% em 1 mês</span>
+                        </div>
+                        
+                        <div class="flex flex-col items-center">
+                            <div class="bg-purple-100 p-4 rounded-full badge-icon">
+                                <i class="fas fa-star text-purple-500 text-2xl"></i>
+                            </div>
+                            <span class="mt-2 text-sm font-medium text-center">Estrela</span>
+                            <span class="text-xs text-gray-500 text-center">5 avaliações 5★</span>
+                        </div>
+                        
+                        <div class="flex flex-col items-center">
+                            <div class="bg-gray-100 p-4 rounded-full badge-icon opacity-50">
+                                <i class="fas fa-robot text-gray-400 text-2xl"></i>
+                            </div>
+                            <span class="mt-2 text-sm font-medium text-center">Máquina</span>
+                            <span class="text-xs text-gray-400 text-center">50 vendas/mês</span>
+                        </div>
+                        
+                        <div class="flex flex-col items-center">
+                            <div class="bg-gray-100 p-4 rounded-full badge-icon opacity-50">
+                                <i class="fas fa-handshake text-gray-400 text-2xl"></i>
+                            </div>
+                            <span class="mt-2 text-sm font-medium text-center">Negociador</span>
+                            <span class="text-xs text-gray-400 text-center">Ticket > R$5,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dicas de Vendas -->
+            <div id="dicas" class="bg-white rounded-xl shadow">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-800">Dicas para Melhorar suas Vendas</h3>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-2 rounded-lg mr-4">
+                                <i class="fas fa-comment-dots text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 mb-1">Ouvir mais do que falar</h4>
+                                <p class="text-sm text-gray-600">Descubra as necessidades reais do cliente fazendo perguntas abertas e ouvindo atentamente as respostas.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 p-2 rounded-lg mr-4">
+                                <i class="fas fa-clock text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 mb-1">Seguimento estratégico</h4>
+                                <p class="text-sm text-gray-600">80% das vendas acontecem após o 5º contato. Crie um sistema de follow-up consistente.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-green-100 p-2 rounded-lg mr-4">
+                                <i class="fas fa-heart text-green-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 mb-1">Venda benefícios</h4>
+                                <p class="text-sm text-gray-600">Clientes compram soluções para seus problemas, não características do produto. Foque nos benefícios.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Botão Flutuante para Nova Venda (Mobile) -->
+    <div class="md:hidden fixed bottom-20 right-6">
+        <button class="floating-btn pulse bg-blue-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg">
+            <i class="fas fa-plus text-xl"></i>
+        </button>
+    </div>
+
+    <script>
+        // Simulação de dados dinâmicos
+        document.addEventListener('DOMContentLoaded', function() {
+            // Atualizar progresso das metas
+            function updateProgress() {
+                const progressBars = document.querySelectorAll('.progress-bar');
+                progressBars.forEach(bar => {
+                    const currentWidth = bar.style.width;
+                    const newWidth = Math.min(parseInt(currentWidth) + Math.floor(Math.random() * 5) + 1, 100);
+                    bar.style.width = newWidth + '%';
+                });
+            }
+            
+            // Atualizar a cada 5 segundos (simulação)
+            setInterval(updateProgress, 5000);
+            
+            // Navegação suave
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Atualizar navegação ativa
+                    if(window.innerWidth < 768) {
+                        document.querySelectorAll('.md\\:hidden.fixed.bottom-0 a').forEach(link => {
+                            link.classList.remove('text-blue-500');
+                            link.classList.add('text-gray-500');
+                        });
+                        this.classList.remove('text-gray-500');
+                        this.classList.add('text-blue-500');
+                    }
+                });
+            });
+            
+            // Notificação
+            const notificationBell = document.querySelector('.fa-bell');
+            notificationBell.addEventListener('click', function() {
+                alert('Você tem 3 novas notificações:\n\n1. Carlos alcançou 90% da meta\n2. Novo desafio disponível\n3. Reunião de vendas amanhã às 10h');
+            });
+            
+            // Botão nova venda
+            const newSaleBtns = document.querySelectorAll('button:has(.fa-plus)');
+            newSaleBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    alert('Ótimo! Vamos registrar uma nova venda.\n\nRedirecionando para o formulário...');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
