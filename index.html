@@ -35,7 +35,6 @@
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
-    <!-- Sidebar/Navbar Mobile -->
     <div class="md:hidden fixed bottom-0 w-full bg-white shadow-lg z-50">
         <div class="flex justify-around py-3">
             <a href="#dashboard" class="text-blue-500">
@@ -53,7 +52,6 @@
         </div>
     </div>
 
-    <!-- Sidebar Desktop -->
     <div class="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 bg-white shadow-lg">
         <div class="flex-1 flex flex-col min-h-0 p-4">
             <div class="flex items-center justify-center h-16 mb-8">
@@ -93,18 +91,16 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="md:pl-64 flex flex-col">
-        <!-- Top Navigation -->
         <div class="sticky top-0 z-10 bg-white shadow-sm">
             <div class="flex justify-between items-center px-6 py-4">
                 <h2 class="text-xl font-semibold text-gray-800">Dashboard</h2>
                 <div class="flex items-center space-x-4">
-                    <div class="relative">
+                    <div class="relative cursor-pointer notification-bell">
                         <i class="fas fa-bell text-gray-500 text-xl"></i>
                         <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
                     </div>
-                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">
+                    <button class="new-sale-btn bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">
                         <i class="fas fa-plus mr-2"></i> Nova Venda
                     </button>
                 </div>
@@ -112,7 +108,6 @@
         </div>
 
         <main class="flex-1 p-6">
-            <!-- Seção de Boas-vindas -->
             <div id="dashboard" class="mb-8">
                 <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
                     <h1 class="text-2xl font-bold mb-2">Bem-vindo, Ana!</h1>
@@ -138,7 +133,6 @@
                 </div>
             </div>
 
-            <!-- Cards de Métricas -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="bg-white p-6 rounded-xl shadow">
                     <div class="flex justify-between items-start">
@@ -205,7 +199,6 @@
                 </div>
             </div>
 
-            <!-- Ranking -->
             <div id="ranking" class="bg-white rounded-xl shadow mb-8">
                 <div class="p-6 border-b border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-800">Ranking da Equipe</h3>
@@ -345,7 +338,6 @@
                 </div>
             </div>
 
-            <!-- Metas e Progresso -->
             <div id="metas" class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div class="bg-white rounded-xl shadow">
                     <div class="p-6 border-b border-gray-200">
@@ -455,7 +447,6 @@
                 </div>
             </div>
 
-            <!-- Conquistas -->
             <div id="conquistas" class="bg-white rounded-xl shadow mb-8">
                 <div class="p-6 border-b border-gray-200">
                     <div class="flex justify-between items-center">
@@ -516,7 +507,6 @@
                 </div>
             </div>
 
-            <!-- Dicas de Vendas -->
             <div id="dicas" class="bg-white rounded-xl shadow">
                 <div class="p-6 border-b border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-800">Dicas para Melhorar suas Vendas</h3>
@@ -558,17 +548,15 @@
         </main>
     </div>
 
-    <!-- Botão Flutuante para Nova Venda (Mobile) -->
     <div class="md:hidden fixed bottom-20 right-6">
-        <button class="floating-btn pulse bg-blue-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg">
+        <button class="new-sale-btn floating-btn pulse bg-blue-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg">
             <i class="fas fa-plus text-xl"></i>
         </button>
     </div>
 
     <script>
-        // Simulação de dados dinâmicos
         document.addEventListener('DOMContentLoaded', function() {
-            // Atualizar progresso das metas
+            // Atualizar progresso das metas (simulação)
             function updateProgress() {
                 const progressBars = document.querySelectorAll('.progress-bar');
                 progressBars.forEach(bar => {
@@ -578,7 +566,7 @@
                 });
             }
             
-            // Atualizar a cada 5 segundos (simulação)
+            // Atualizar a cada 5 segundos
             setInterval(updateProgress, 5000);
             
             // Navegação suave
@@ -602,14 +590,16 @@
                 });
             });
             
-            // Notificação
-            const notificationBell = document.querySelector('.fa-bell');
-            notificationBell.addEventListener('click', function() {
-                alert('Você tem 3 novas notificações:\n\n1. Carlos alcançou 90% da meta\n2. Novo desafio disponível\n3. Reunião de vendas amanhã às 10h');
-            });
+            // Botão de notificação
+            const notificationBell = document.querySelector('.notification-bell');
+            if (notificationBell) {
+                notificationBell.addEventListener('click', function() {
+                    alert('Você tem 3 novas notificações:\n\n1. Carlos alcançou 90% da meta\n2. Novo desafio disponível\n3. Reunião de vendas amanhã às 10h');
+                });
+            }
             
-            // Botão nova venda
-            const newSaleBtns = document.querySelectorAll('button:has(.fa-plus)');
+            // Botões de nova venda
+            const newSaleBtns = document.querySelectorAll('.new-sale-btn');
             newSaleBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
                     alert('Ótimo! Vamos registrar uma nova venda.\n\nRedirecionando para o formulário...');
