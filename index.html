@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,23 +58,23 @@
                 <h1 class="text-xl font-bold text-blue-600">SalesEngage</h1>
             </div>
             <nav class="flex-1 space-y-4">
-                <a href="#dashboard" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg bg-blue-50 text-blue-600">
+                <a href="#dashboard" class="nav-link flex items-center px-4 py-3 text-sm font-medium rounded-lg bg-blue-50 text-blue-600">
                     <i class="fas fa-home mr-3"></i>
                     Dashboard
                 </a>
-                <a href="#ranking" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100">
+                <a href="#ranking" class="nav-link flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100">
                     <i class="fas fa-trophy mr-3"></i>
                     Ranking
                 </a>
-                <a href="#metas" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100">
+                <a href="#metas" class="nav-link flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100">
                     <i class="fas fa-bullseye mr-3"></i>
                     Metas
                 </a>
-                <a href="#conquistas" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100">
+                <a href="#conquistas" class="nav-link flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100">
                     <i class="fas fa-medal mr-3"></i>
                     Conquistas
                 </a>
-                <a href="#dicas" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100">
+                <a href="#dicas" class="nav-link flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100">
                     <i class="fas fa-lightbulb mr-3"></i>
                     Dicas de Vendas
                 </a>
@@ -347,7 +347,7 @@
                         <div class="mb-6">
                             <div class="flex justify-between mb-2">
                                 <span class="text-sm font-medium text-gray-700">Meta Mensal</span>
-                                <span class="text-sm font-medium text-gray-700">65%</span>
+                                <span class="text-sm font-medium text-gray-700 progress-percent">65%</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2.5">
                                 <div class="bg-blue-600 h-2.5 rounded-full progress-bar" style="width: 65%"></div>
@@ -361,7 +361,7 @@
                         <div class="mb-6">
                             <div class="flex justify-between mb-2">
                                 <span class="text-sm font-medium text-gray-700">Meta Semanal</span>
-                                <span class="text-sm font-medium text-gray-700">80%</span>
+                                <span class="text-sm font-medium text-gray-700 progress-percent">80%</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2.5">
                                 <div class="bg-green-500 h-2.5 rounded-full progress-bar" style="width: 80%"></div>
@@ -375,7 +375,7 @@
                         <div class="mb-6">
                             <div class="flex justify-between mb-2">
                                 <span class="text-sm font-medium text-gray-700">Clientes Novos</span>
-                                <span class="text-sm font-medium text-gray-700">45%</span>
+                                <span class="text-sm font-medium text-gray-700 progress-percent">45%</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2.5">
                                 <div class="bg-purple-500 h-2.5 rounded-full progress-bar" style="width: 45%"></div>
@@ -451,7 +451,7 @@
                 <div class="p-6 border-b border-gray-200">
                     <div class="flex justify-between items-center">
                         <h3 class="text-lg font-semibold text-gray-800">Suas Conquistas</h3>
-                        <span class="text-sm text-blue-600 font-medium">Ver todas</span>
+                        <span class="text-sm text-blue-600 font-medium cursor-pointer">Ver todas</span>
                     </div>
                 </div>
                 <div class="p-6">
@@ -556,39 +556,65 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('main > div');
+            const navLinksDesktop = document.querySelectorAll('.nav-link');
+            const navLinksMobile = document.querySelectorAll('.md\\:hidden.fixed.bottom-0 a');
+
+            // Função para atualizar o link ativo na navegação
+            function updateActiveLink(links, targetId) {
+                links.forEach(link => {
+                    link.classList.remove('text-blue-500', 'bg-blue-50');
+                    link.classList.add('text-gray-600', 'hover:bg-gray-100');
+                    if (link.href.endsWith(targetId)) {
+                        if (link.closest('.md\\:hidden')) {
+                            link.classList.add('text-blue-500');
+                            link.classList.remove('text-gray-500');
+                        } else {
+                            link.classList.add('text-blue-600', 'bg-blue-50');
+                            link.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                        }
+                    }
+                });
+            }
+
+            // Observador de intersecção para atualizar a navegação ao rolar
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const targetId = `#${entry.target.id}`;
+                        if (window.innerWidth >= 768) {
+                            updateActiveLink(navLinksDesktop, targetId);
+                        } else {
+                            updateActiveLink(navLinksMobile, targetId);
+                        }
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
             // Atualizar progresso das metas (simulação)
             function updateProgress() {
                 const progressBars = document.querySelectorAll('.progress-bar');
                 progressBars.forEach(bar => {
-                    const currentWidth = bar.style.width;
-                    const newWidth = Math.min(parseInt(currentWidth) + Math.floor(Math.random() * 5) + 1, 100);
-                    bar.style.width = newWidth + '%';
-                });
-            }
-            
-            // Atualizar a cada 5 segundos
-            setInterval(updateProgress, 5000);
-            
-            // Navegação suave
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                    
-                    // Atualizar navegação ativa
-                    if(window.innerWidth < 768) {
-                        document.querySelectorAll('.md\\:hidden.fixed.bottom-0 a').forEach(link => {
-                            link.classList.remove('text-blue-500');
-                            link.classList.add('text-gray-500');
-                        });
-                        this.classList.remove('text-gray-500');
-                        this.classList.add('text-blue-500');
+                    const currentWidth = parseFloat(bar.style.width);
+                    if (currentWidth < 100) {
+                        const newWidth = Math.min(currentWidth + Math.floor(Math.random() * 5) + 1, 100);
+                        bar.style.width = newWidth + '%';
+                        const percentSpan = bar.parentElement.previousElementSibling.querySelector('.progress-percent');
+                        if (percentSpan) {
+                            percentSpan.textContent = Math.round(newWidth) + '%';
+                        }
                     }
                 });
-            });
+            }
+            setInterval(updateProgress, 5000);
             
             // Botão de notificação
             const notificationBell = document.querySelector('.notification-bell');
