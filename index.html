@@ -32,12 +32,14 @@
             70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
             100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
         }
-        /* Estilos do modal */
+        /* Estilos do modal (corrigidos) */
         .modal {
-            display: none;
+            transition: all 0.3s ease-in-out;
         }
-        .modal.open {
-            display: flex;
+        .modal.closed {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
         }
     </style>
 </head>
@@ -561,7 +563,7 @@
         </button>
     </div>
 
-    <div id="new-sale-modal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-[100] flex justify-center items-center">
+    <div id="new-sale-modal" class="modal closed fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-[100] flex justify-center items-center">
         <div class="relative bg-white rounded-lg shadow-xl w-11/12 md:w-1/2 lg:w-1/3 p-6">
             <div class="flex justify-between items-center pb-3">
                 <h3 class="text-xl font-semibold text-gray-900">Registrar Nova Venda</h3>
@@ -591,7 +593,7 @@
         </div>
     </div>
 
-    <div id="notification-modal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-[100] flex justify-center items-center">
+    <div id="notification-modal" class="modal closed fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-[100] flex justify-center items-center">
         <div class="relative bg-white rounded-lg shadow-xl w-11/12 md:w-1/2 lg:w-1/3 p-6">
             <div class="flex justify-between items-center pb-3">
                 <h3 class="text-xl font-semibold text-gray-900">Notificações</h3>
@@ -701,31 +703,30 @@
 
             newSaleBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    newSaleModal.classList.add('open');
+                    newSaleModal.classList.remove('closed');
                 });
             });
 
             notificationBell.addEventListener('click', () => {
-                notificationModal.classList.add('open');
+                notificationModal.classList.remove('closed');
             });
 
             closeButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    newSaleModal.classList.remove('open');
-                    notificationModal.classList.remove('open');
+                    newSaleModal.classList.add('closed');
+                    notificationModal.classList.add('closed');
                 });
             });
 
             // Fechar modal ao clicar fora dele
             window.addEventListener('click', (event) => {
                 if (event.target === newSaleModal) {
-                    newSaleModal.classList.remove('open');
+                    newSaleModal.classList.add('closed');
                 }
                 if (event.target === notificationModal) {
-                    notificationModal.classList.remove('open');
+                    notificationModal.classList.add('closed');
                 }
             });
-
         });
     </script>
 </body>
