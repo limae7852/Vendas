@@ -129,7 +129,7 @@
                                 </div>
                                 <span class="ml-2 text-sm">65% da meta</span>
                             </div>
-                            <button class="bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100">
+                            <button class="show-metas-modal-btn bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100">
                                 Ver detalhes
                             </button>
                         </div>
@@ -632,16 +632,59 @@
         </div>
     </div>
 
+    <div id="metas-modal" class="modal closed fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-[100] flex justify-center items-center">
+        <div class="relative bg-white rounded-lg shadow-xl w-11/12 md:w-1/2 lg:w-1/3 p-6">
+            <div class="flex justify-between items-center pb-3">
+                <h3 class="text-xl font-semibold text-gray-900">Detalhes das Metas</h3>
+                <button class="close-modal-btn text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            </div>
+            <div class="space-y-6">
+                <div>
+                    <h4 class="font-medium text-gray-800 mb-2">Meta Mensal de Vendas</h4>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-sm text-gray-700">Progresso</span>
+                        <span class="font-bold text-blue-600">65%</span>
+                    </div>
+                    <div class="w-full bg-blue-100 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full progress-bar" style="width: 65%"></div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">R$ 32,500 de R$ 50,000 alcançados.</p>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-800 mb-2">Meta Semanal de Vendas</h4>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-sm text-gray-700">Progresso</span>
+                        <span class="font-bold text-green-600">80%</span>
+                    </div>
+                    <div class="w-full bg-green-100 rounded-full h-2.5">
+                        <div class="bg-green-500 h-2.5 rounded-full progress-bar" style="width: 80%"></div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">R$ 8,000 de R$ 10,000 alcançados.</p>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-800 mb-2">Meta de Clientes Novos</h4>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-sm text-gray-700">Progresso</span>
+                        <span class="font-bold text-purple-600">45%</span>
+                    </div>
+                    <div class="w-full bg-purple-100 rounded-full h-2.5">
+                        <div class="bg-purple-500 h-2.5 rounded-full progress-bar" style="width: 45%"></div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">9 de 20 clientes novos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const sections = document.querySelectorAll('main > div');
             const navLinksDesktop = document.querySelectorAll('.nav-link');
             const navLinksMobile = document.querySelectorAll('.md\\:hidden.fixed.bottom-0 a');
 
-            // Função para atualizar o link ativo na navegação
             function updateActiveLink(links, targetId) {
                 links.forEach(link => {
-                    link.classList.remove('text-blue-500', 'bg-blue-50');
+                    link.classList.remove('text-blue-500', 'bg-blue-50', 'text-blue-600');
                     link.classList.add('text-gray-600', 'hover:bg-gray-100');
                     if (link.href.endsWith(targetId)) {
                         if (link.closest('.md\\:hidden')) {
@@ -655,7 +698,6 @@
                 });
             }
 
-            // Observador de intersecção para atualizar a navegação ao rolar
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -677,7 +719,6 @@
                 observer.observe(section);
             });
 
-            // Atualizar progresso das metas (simulação)
             function updateProgress() {
                 const progressBars = document.querySelectorAll('.progress-bar');
                 progressBars.forEach(bar => {
@@ -685,7 +726,7 @@
                     if (currentWidth < 100) {
                         const newWidth = Math.min(currentWidth + Math.floor(Math.random() * 5) + 1, 100);
                         bar.style.width = newWidth + '%';
-                        const percentSpan = bar.parentElement.previousElementSibling.querySelector('.progress-percent');
+                        const percentSpan = bar.closest('div').previousElementSibling?.querySelector('.progress-percent');
                         if (percentSpan) {
                             percentSpan.textContent = Math.round(newWidth) + '%';
                         }
@@ -694,11 +735,12 @@
             }
             setInterval(updateProgress, 5000);
 
-            // Funcionalidade dos Modais
             const newSaleBtns = document.querySelectorAll('.new-sale-btn');
             const notificationBell = document.querySelector('.notification-bell');
+            const showMetasModalBtn = document.querySelector('.show-metas-modal-btn');
             const newSaleModal = document.getElementById('new-sale-modal');
             const notificationModal = document.getElementById('notification-modal');
+            const metasModal = document.getElementById('metas-modal');
             const closeButtons = document.querySelectorAll('.close-modal-btn');
 
             newSaleBtns.forEach(btn => {
@@ -710,21 +752,27 @@
             notificationBell.addEventListener('click', () => {
                 notificationModal.classList.remove('closed');
             });
+            
+            // Adicionando evento de clique para o novo botão
+            showMetasModalBtn.addEventListener('click', () => {
+                metasModal.classList.remove('closed');
+            });
 
             closeButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    newSaleModal.classList.add('closed');
-                    notificationModal.classList.add('closed');
+                    btn.closest('.modal').classList.add('closed');
                 });
             });
 
-            // Fechar modal ao clicar fora dele
             window.addEventListener('click', (event) => {
                 if (event.target === newSaleModal) {
                     newSaleModal.classList.add('closed');
                 }
                 if (event.target === notificationModal) {
                     notificationModal.classList.add('closed');
+                }
+                if (event.target === metasModal) {
+                    metasModal.classList.add('closed');
                 }
             });
         });
